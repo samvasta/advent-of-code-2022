@@ -33,7 +33,7 @@ func findFirstMarker(input string, length int) (position int, before, rest strin
 			prevIndex = 0
 		}
 
-		if i >= 3 && isAllDifferent(prev) {
+		if i >= length-1 && isAllDifferent(prev) {
 			position = i + 1
 			before = input[:position]
 			rest = input[position:]
