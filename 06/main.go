@@ -12,7 +12,6 @@ func isAllDifferent(chars []rune) bool {
 
 	for _, c := range chars {
 		if _, ok := set[c]; ok {
-			fmt.Printf("found duplicate %v\n", c)
 			return false
 		}
 		set[c] = true
@@ -21,45 +20,19 @@ func isAllDifferent(chars []rune) bool {
 	return true
 }
 
-func findFirstPacketMarker(input string) (position int, before, rest string) {
+func findFirstMarker(input string, length int) (position int, before, rest string) {
 
-	prev := []rune{0, 0, 0, 0}
-
-	prevIndex := 0
-
-	for i, c := range input {
-		prev[prevIndex] = c
-		prevIndex++
-		if prevIndex >= 4 {
-			prevIndex = 0
-		}
-
-		fmt.Println(prev)
-		if i >= 3 && isAllDifferent(prev) {
-			position = i + 1
-			before = input[:position]
-			rest = input[position:]
-			return
-		}
-	}
-
-	return -1, input, ""
-}
-
-func findFirstMessageMarker(input string) (position int, before, rest string) {
-
-	prev := []rune{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+	prev := make([]rune, length)
 
 	prevIndex := 0
 
 	for i, c := range input {
 		prev[prevIndex] = c
 		prevIndex++
-		if prevIndex >= 14 {
+		if prevIndex >= length {
 			prevIndex = 0
 		}
 
-		fmt.Println(prev)
 		if i >= 3 && isAllDifferent(prev) {
 			position = i + 1
 			before = input[:position]
@@ -74,7 +47,7 @@ func findFirstMessageMarker(input string) (position int, before, rest string) {
 func question1(scanner *bufio.Scanner) {
 	for scanner.Scan() {
 		line := scanner.Text()
-		position, x, y := findFirstPacketMarker(line)
+		position, x, y := findFirstMarker(line, 4)
 
 		fmt.Printf("%v, %v, %v\n", position, x, y)
 	}
@@ -83,7 +56,7 @@ func question1(scanner *bufio.Scanner) {
 func question2(scanner *bufio.Scanner) {
 	for scanner.Scan() {
 		line := scanner.Text()
-		position, x, y := findFirstMessageMarker(line)
+		position, x, y := findFirstMarker(line, 14)
 
 		fmt.Printf("%v, %v, %v\n", position, x, y)
 	}
